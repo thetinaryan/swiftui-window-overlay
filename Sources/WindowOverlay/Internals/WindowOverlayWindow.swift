@@ -14,12 +14,12 @@ internal final class WindowOverlayWindow: UIWindow {
           let hitView = super.hitTest(point, with: event)
     else { return nil }
 
-    // UIKit-backed controls, and before iOS 26 everything SwiftUI draws, are subviews of the hosting view.
+    // UIKit-backed controls, and before iOS 18 everything SwiftUI draws, are hit as subviews of the hosting view.
     if hitView !== rootView {
       return hitView
     }
-    // From iOS 26, SwiftUI draws into layers under the hosting view's own layer.
-    if #available(iOS 26.0, *),
+    // From iOS 18, the hosting view takes the hit for what SwiftUI draws, so look for a layer under its own.
+    if #available(iOS 18.0, *),
        let layer = rootView.layer.hitTest(point),
        layer !== rootView.layer
     {

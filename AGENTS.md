@@ -34,8 +34,8 @@ done
 
 Touches pass through wherever the overlay draws nothing. `WindowOverlayWindow.hitTest` decides this by looking at how SwiftUI builds its views, which is undocumented and changes between OS versions:
 
-- UIKit-backed controls (`TextField`, `Toggle`, `ScrollView`) and, before iOS 26, everything SwiftUI draws are subviews of the hosting view.
-- From iOS 26, drawn content is layers under the hosting view's layer, so `layer.hitTest(_:)` returns something other than the hosting view's own layer.
+- UIKit-backed controls (`TextField`, `Toggle`, `ScrollView`) and, before iOS 18, everything SwiftUI draws are hit as subviews of the hosting view.
+- From iOS 18, the hosting view itself takes the hit for drawn content. The content is still layers under the hosting view's layer (subview layers before iOS 26), so `layer.hitTest(_:)` returns something other than the hosting view's own layer.
 
 Don't go back to sampling pixel alpha: it misses materials and renders on every touch.
 
